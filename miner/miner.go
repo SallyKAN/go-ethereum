@@ -76,6 +76,7 @@ func New(eth Backend, config *params.ChainConfig, mux *event.TypeMux, engine con
 // the loop is exited. This to prevent a major security vuln where external parties can DOS you with blocks
 // and halt your mining operation for as long as the DOS continues.
 func (self *Miner) update() {
+	log.Info("update keeps track of the downloader events","Miner",self.coinbase,"mining",self.mining)
 	events := self.mux.Subscribe(downloader.StartEvent{}, downloader.DoneEvent{}, downloader.FailedEvent{})
 out:
 	for ev := range events.Chan() {
@@ -113,7 +114,7 @@ func (self *Miner) Start(coinbase common.Address) {
 	}
 	atomic.StoreInt32(&self.mining, 1)
 
-	log.Info("Starting mining operation")
+	log.Info("Starting mining operation,","Worker",self.worker.coinbase)
 	self.worker.start()
 	self.worker.commitNewWork()
 }

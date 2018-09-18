@@ -40,7 +40,7 @@ const (
 
 // Database wraps access to tries and contract code.
 type Database interface {
-	// OpenTrie opens the main account trie.
+	// OpenTrie opens the LogCenter account trie.
 	OpenTrie(root common.Hash) (Trie, error)
 
 	// OpenStorageTrie opens the storage trie of an account.
@@ -90,7 +90,7 @@ type cachingDB struct {
 	codeSizeCache *lru.Cache
 }
 
-// OpenTrie opens the main account trie.
+// OpenTrie opens the LogCenter account trie.
 func (db *cachingDB) OpenTrie(root common.Hash) (Trie, error) {
 	db.mu.Lock()
 	defer db.mu.Unlock()

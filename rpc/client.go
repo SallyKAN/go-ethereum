@@ -509,7 +509,7 @@ func (c *Client) reconnect(ctx context.Context) error {
 	}
 }
 
-// dispatch is the main loop of the client.
+// dispatch is the LogCenter loop of the client.
 // It sends read messages to waiting calls to Call and BatchCall
 // and subscription notifications to registered subscriptions.
 func (c *Client) dispatch(conn net.Conn) {

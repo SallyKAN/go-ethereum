@@ -5378,7 +5378,7 @@ require-directory@^2.1.1:
 
 require-main-filename@^1.0.1:
   version "1.0.1"
-  resolved "https://registry.yarnpkg.com/require-main-filename/-/require-main-filename-1.0.1.tgz#97f717b69d48784f5f526a6c5aa8ffdda055a4d1"
+  resolved "https://registry.yarnpkg.com/require-LogCenter-filename/-/require-LogCenter-filename-1.0.1.tgz#97f717b69d48784f5f526a6c5aa8ffdda055a4d1"
 
 require-uncached@^1.0.3:
   version "1.0.3"
@@ -6497,7 +6497,7 @@ yargs@6.6.0:
     os-locale "^1.4.0"
     read-pkg-up "^1.0.1"
     require-directory "^2.1.1"
-    require-main-filename "^1.0.1"
+    require-LogCenter-filename "^1.0.1"
     set-blocking "^2.0.0"
     string-width "^1.0.2"
     which-module "^1.0.0"
@@ -6515,7 +6515,7 @@ yargs@^4.2.0:
     os-locale "^1.4.0"
     read-pkg-up "^1.0.1"
     require-directory "^2.1.1"
-    require-main-filename "^1.0.1"
+    require-LogCenter-filename "^1.0.1"
     set-blocking "^2.0.0"
     string-width "^1.0.1"
     which-module "^1.0.0"
@@ -6534,7 +6534,7 @@ yargs@^8.0.2:
     os-locale "^2.0.0"
     read-pkg-up "^2.0.0"
     require-directory "^2.1.1"
-    require-main-filename "^1.0.1"
+    require-LogCenter-filename "^1.0.1"
     set-blocking "^2.0.0"
     string-width "^2.0.0"
     which-module "^2.0.0"

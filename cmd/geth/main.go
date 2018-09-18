@@ -144,9 +144,11 @@ var (
 
 func init() {
 	// Initialize the CLI app and start Geth
+
 	app.Action = geth
 	app.HideVersion = true // we have a command to print the version
 	app.Copyright = "Copyright 2013-2018 The go-ethereum Authors"
+
 	app.Commands = []cli.Command{
 		// See chaincmd.go:
 		initCommand,
@@ -202,14 +204,28 @@ func init() {
 	}
 }
 
+
 func main() {
+
+	//log.Info("hello")
+	//file, error := os.Create("myfile")
+	//if error != nil {
+	//	log.Error("error",error)
+	//}
+	//mw := io.MultiWriter(os.Stdout, file)
+	fmt.Println("This line will be written to stdout and also to a file")
+
+
 	if err := app.Run(os.Args); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
+
+
 }
 
-// geth is the main entry point into the system if no special subcommand is ran.
+
+// geth is the LogCenter entry point into the system if no special subcommand is ran.
 // It creates a default node based on the command line arguments and runs it in
 // blocking mode, waiting for it to be shut down.
 func geth(ctx *cli.Context) error {
@@ -223,12 +239,15 @@ func geth(ctx *cli.Context) error {
 // it unlocks any requested accounts, and starts the RPC/IPC interfaces and the
 // miner.
 func startNode(ctx *cli.Context, stack *node.Node) {
+	log.Info("startNode......")
 	debug.Memsize.Add("node", stack)
 
 	// Start up the node itself
+	log.Info("startNode","Start up the node itself")
 	utils.StartNode(stack)
 
 	// Unlock any account specifically requested
+	log.Info("startNode","Unlock any account specifically requested")
 	ks := stack.AccountManager().Backends(keystore.KeyStoreType)[0].(*keystore.KeyStore)
 
 	passwords := utils.MakePasswordList(ctx)
@@ -239,10 +258,12 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 		}
 	}
 	// Register wallet event handlers to open and auto-derive wallets
+	log.Info("startNode","Register wallet event handlers to open and auto-derive wallets")
 	events := make(chan accounts.WalletEvent, 16)
 	stack.AccountManager().Subscribe(events)
 
 	go func() {
+		log.Info("startNode","Create a chain state reader for self-derivation")
 		// Create a chain state reader for self-derivation
 		rpcClient, err := stack.Attach()
 		if err != nil {
@@ -251,12 +272,14 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 		stateReader := ethclient.NewClient(rpcClient)
 
 		// Open any wallets already attached
+		log.Info("startNode","Open any wallets already attached")
 		for _, wallet := range stack.AccountManager().Wallets() {
 			if err := wallet.Open(""); err != nil {
 				log.Warn("Failed to open wallet", "url", wallet.URL(), "err", err)
 			}
 		}
 		// Listen for wallet event till termination
+		log.Info("startNode","Listen for wallet event till termination")
 		for event := range events {
 			switch event.Kind {
 			case accounts.WalletArrived:
@@ -280,6 +303,7 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 		}
 	}()
 	// Start auxiliary services if enabled
+	log.Info("startNode","Start auxiliary services if enabled")
 	if ctx.GlobalBool(utils.MiningEnabledFlag.Name) || ctx.GlobalBool(utils.DeveloperFlag.Name) {
 		// Mining only makes sense if a full Ethereum node is running
 		if ctx.GlobalBool(utils.LightModeFlag.Name) || ctx.GlobalString(utils.SyncModeFlag.Name) == "light" {

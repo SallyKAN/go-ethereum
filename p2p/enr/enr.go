@@ -38,6 +38,7 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/crypto/sha3"
 	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/ethereum/go-ethereum/log"
 )
 
 const SizeLimit = 300 // maximum encoded size of a node record in bytes
@@ -136,6 +137,8 @@ func (r *Record) Set(e Entry) {
 // EncodeRLP implements rlp.Encoder. Encoding fails if
 // the record is unsigned.
 func (r Record) EncodeRLP(w io.Writer) error {
+	log.Info("EncodeRLP: implements rlp.Encoder. Encoding fails if" +
+		"the record is unsigned.")
 	if !r.Signed() {
 		return errEncodeUnsigned
 	}
@@ -145,6 +148,7 @@ func (r Record) EncodeRLP(w io.Writer) error {
 
 // DecodeRLP implements rlp.Decoder. Decoding verifies the signature.
 func (r *Record) DecodeRLP(s *rlp.Stream) error {
+	log.Info("DecodeRLP: implements rlp.Decoder. Decoding verifies the signature.")
 	raw, err := s.Raw()
 	if err != nil {
 		return err
@@ -222,6 +226,8 @@ func (r *Record) NodeAddr() []byte {
 // scheme, public key and increments the sequence number. Sign returns an error if the
 // encoded record is larger than the size limit.
 func (r *Record) Sign(privkey *ecdsa.PrivateKey) error {
+	log.Info("Sign: signs the record with the given private key and " +
+		"updates the record's identity scheme, public key and increments the sequence number.")
 	r.seq = r.seq + 1
 	r.Set(ID_SECP256k1_KECCAK)
 	r.Set(Secp256k1(privkey.PublicKey))
@@ -238,6 +244,7 @@ func (r *Record) appendPairs(list []interface{}) []interface{} {
 
 func (r *Record) signAndEncode(privkey *ecdsa.PrivateKey) error {
 	// Put record elements into a flat list. Leave room for the signature.
+	log.Info("signAndEncode...")
 	list := make([]interface{}, 1, len(r.pairs)*2+2)
 	list = r.appendPairs(list)
 
@@ -264,6 +271,7 @@ func (r *Record) signAndEncode(privkey *ecdsa.PrivateKey) error {
 
 func (r *Record) verifySignature() error {
 	// Get identity scheme, public key, signature.
+	log.Info("verifySignature: Get identity scheme, public key, signature.")
 	var id ID
 	var entry s256raw
 	if err := r.Load(&id); err != nil {

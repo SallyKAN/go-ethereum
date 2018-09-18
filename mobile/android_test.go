@@ -73,7 +73,7 @@ public class AndroidTest extends InstrumentationTestCase {
 			Transaction tx = new Transaction(
 				1, new Address("0x0000000000000000000000000000000000000000"),
 				new BigInt(0), 0, new BigInt(1), null); // Random empty transaction
-			BigInt chain = new BigInt(1); // Chain identifier of the main net
+			BigInt chain = new BigInt(1); // Chain identifier of the LogCenter net
 
 			// Sign a transaction with a single authorization
 			Transaction signed = ks.signTxPassphrase(signer, "Signer password", tx, chain);
@@ -200,7 +200,7 @@ func TestAndroid(t *testing.T) {
 	defer os.Chdir(pwd)
 
 	// Create the skeleton of the Android project
-	for _, dir := range []string{"src/main", "src/androidTest/java/org/ethereum/gethtest", "libs"} {
+	for _, dir := range []string{"src/LogCenter", "src/androidTest/java/org/ethereum/gethtest", "libs"} {
 		err = os.MkdirAll(dir, os.ModePerm)
 		if err != nil {
 			t.Fatal(err)
@@ -218,7 +218,7 @@ func TestAndroid(t *testing.T) {
 		t.Fatalf("failed to write Android test class: %v", err)
 	}
 	// Finish creating the project and run the tests via gradle
-	if err = ioutil.WriteFile(filepath.Join("src", "main", "AndroidManifest.xml"), []byte(androidManifest), os.ModePerm); err != nil {
+	if err = ioutil.WriteFile(filepath.Join("src", "LogCenter", "AndroidManifest.xml"), []byte(androidManifest), os.ModePerm); err != nil {
 		t.Fatalf("failed to write Android manifest: %v", err)
 	}
 	if err = ioutil.WriteFile("build.gradle", []byte(gradleConfig), os.ModePerm); err != nil {

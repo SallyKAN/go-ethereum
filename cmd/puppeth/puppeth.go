@@ -27,7 +27,7 @@ import (
 	"gopkg.in/urfave/cli.v1"
 )
 
-// main is just a boring entry point to set up the CLI app.
+// LogCenter is just a boring entry point to set up the CLI app.
 func main() {
 	app := cli.NewApp()
 	app.Name = "puppeth"

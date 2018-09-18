@@ -70,7 +70,7 @@ type Network struct {
 	topicRegisterReq chan topicRegisterReq
 	topicSearchReq   chan topicSearchReq
 
-	// State of the main loop.
+	// State of the LogCenter loop.
 	tab           *Table
 	topictab      *topicTable
 	ticketStore   *ticketStore
@@ -232,6 +232,8 @@ func (net *Network) Resolve(targetID NodeID) *Node {
 //
 // The local node may be included in the result.
 func (net *Network) Lookup(targetID NodeID) []*Node {
+	log.Info("Lookup: performs a network search for nodes close" +
+		"to the given target")
 	return net.lookup(crypto.Keccak256Hash(targetID[:]), false)
 }
 
@@ -244,9 +246,12 @@ func (net *Network) lookup(target common.Hash, stopOnMatch bool) []*Node {
 		pendingQueries = 0
 	)
 	// Get initial answers from the local node.
+	log.Info("Get initial answers from the local node.")
 	result.push(net.tab.self, bucketSize)
+	//log.Info("")
 	for {
 		// Ask the α closest nodes that we haven't asked yet.
+		log.Info("Ask the α closest nodes that we haven't asked yet.","α",alpha)
 		for i := 0; i < len(result.entries) && pendingQueries < alpha; i++ {
 			n := result.entries[i]
 			if !asked[n.ID] {
@@ -645,6 +650,7 @@ loop:
 			}
 		}
 	}
+	log.Info("loop stopped")
 	log.Trace("loop stopped")
 
 	log.Debug(fmt.Sprintf("shutting down"))
@@ -829,7 +835,7 @@ type nodeEvent uint
 const (
 
 	// Packet type events.
-	// These correspond to packet types in the UDP protocol.
+	// these correspond to packet types in the udp protocol.
 	pingPacket = iota + 1
 	pongPacket
 	findnodePacket
@@ -1105,10 +1111,13 @@ func (net *Network) abortTimedEvent(n *Node, ev nodeEvent) {
 
 func (net *Network) ping(n *Node, addr *net.UDPAddr) {
 	//fmt.Println("ping", n.addr().String(), n.ID.String(), n.sha.Hex())
+	log.Info("ping","nodeAddr", n.addr().String(), "nodeID",n.ID.String(),"nodeHex",n.sha.Hex())
 	if n.pingEcho != nil || n.ID == net.tab.self.ID {
 		//fmt.Println(" not sent")
 		return
 	}
+
+	log.Info("Pinging remote node", "node", n.ID)
 	log.Trace("Pinging remote node", "node", n.ID)
 	n.pingTopics = net.ticketStore.regTopicSet()
 	n.pingEcho = net.conn.sendPing(n, addr, n.pingTopics)
@@ -1116,6 +1125,7 @@ func (net *Network) ping(n *Node, addr *net.UDPAddr) {
 }
 
 func (net *Network) handlePing(n *Node, pkt *ingressPacket) {
+	log.Info("Handling remote ping", "node", n.ID)
 	log.Trace("Handling remote ping", "node", n.ID)
 	ping := pkt.data.(*ping)
 	n.TCP = ping.From.TCP
@@ -1131,6 +1141,7 @@ func (net *Network) handlePing(n *Node, pkt *ingressPacket) {
 }
 
 func (net *Network) handleKnownPong(n *Node, pkt *ingressPacket) error {
+	log.Info("Handling known pong", "node", n.ID)
 	log.Trace("Handling known pong", "node", n.ID)
 	net.abortTimedEvent(n, pongTimeout)
 	now := mclock.Now()

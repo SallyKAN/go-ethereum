@@ -603,7 +603,7 @@ func (s *StateDB) Commit(deleteEmptyObjects bool) (root common.Hash, err error) 
 			if err := stateObject.CommitTrie(s.db); err != nil {
 				return common.Hash{}, err
 			}
-			// Update the object in the main account trie.
+			// Update the object in the LogCenter account trie.
 			s.updateStateObject(stateObject)
 		}
 		delete(s.stateObjectsDirty, addr)

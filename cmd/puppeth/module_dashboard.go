@@ -96,7 +96,7 @@ var dashboardContent = `
 						</div>
 					</div>
 				</div>
-				<div class="right_col" role="main" style="padding: 0 !important">
+				<div class="right_col" role="LogCenter" style="padding: 0 !important">
 					<div id="geth" hidden style="padding: 16px;">
 						<div class="page-title">
 							<div class="title_left">

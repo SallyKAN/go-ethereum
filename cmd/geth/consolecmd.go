@@ -29,6 +29,7 @@ import (
 	"github.com/ethereum/go-ethereum/node"
 	"github.com/ethereum/go-ethereum/rpc"
 	"gopkg.in/urfave/cli.v1"
+	"github.com/ethereum/go-ethereum/log"
 )
 
 var (
@@ -77,11 +78,14 @@ JavaScript API. See https://github.com/ethereum/go-ethereum/wiki/JavaScript-Cons
 // same time.
 func localConsole(ctx *cli.Context) error {
 	// Create and start the node based on the CLI flags
+	log.Info("localConsole","starts a new geth node, attaching a JavaScript console to it at the" +
+		"same time.")
 	node := makeFullNode(ctx)
 	startNode(ctx, node)
 	defer node.Stop()
 
 	// Attach to the newly started node and start the JavaScript console
+	log.Info("Attach to the newly started node and start the JavaScript console")
 	client, err := node.Attach()
 	if err != nil {
 		utils.Fatalf("Failed to attach to the inproc geth: %v", err)
@@ -114,7 +118,10 @@ func localConsole(ctx *cli.Context) error {
 // remoteConsole will connect to a remote geth instance, attaching a JavaScript
 // console to it.
 func remoteConsole(ctx *cli.Context) error {
+	log.Info("remoteConsole","connect to a remote geth instance, attaching a JavaScript" +
+		"console to it.")
 	// Attach to a remotely running geth instance and start the JavaScript console
+	log.Info("Attach to a remotely running geth instance and start the JavaScript console")
 	endpoint := ctx.Args().First()
 	if endpoint == "" {
 		path := node.DefaultDataDir()

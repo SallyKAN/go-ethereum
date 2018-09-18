@@ -573,7 +573,7 @@ func testExternalUI(api *core.SignerAPI) {
 
 	ctx := context.WithValue(context.Background(), "remote", "clef binary")
 	ctx = context.WithValue(ctx, "scheme", "in-proc")
-	ctx = context.WithValue(ctx, "local", "main")
+	ctx = context.WithValue(ctx, "local", "LogCenter")
 
 	errs := make([]string, 0)
 

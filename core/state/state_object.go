@@ -94,7 +94,7 @@ func (s *stateObject) empty() bool {
 }
 
 // Account is the Ethereum consensus representation of accounts.
-// These objects are stored in the main account trie.
+// These objects are stored in the LogCenter account trie.
 type Account struct {
 	Nonce    uint64
 	Balance  *big.Int

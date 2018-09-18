@@ -93,7 +93,7 @@ func randomSource() *rand.Rand {
 	return rand.New(src)
 }
 
-// This function runs the main event loop from a goroutine that is started
+// This function runs the LogCenter event loop from a goroutine that is started
 // when JSRE is created. Use Stop() before exiting to properly stop it.
 // The event loop processes vm access requests from the evalQueue in a
 // serialized way and calls timer callback functions at the appropriate time.

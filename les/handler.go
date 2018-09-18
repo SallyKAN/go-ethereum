@@ -322,7 +322,7 @@ func (pm *ProtocolManager) handle(p *peer) error {
 		}
 	}()
 
-	// main loop. handle incoming messages.
+	// LogCenter loop. handle incoming messages.
 	for {
 		if err := pm.handleMsg(p); err != nil {
 			p.Log().Debug("Light Ethereum message handling failed", "err", err)

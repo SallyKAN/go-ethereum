@@ -83,7 +83,7 @@ var tomlSettings = toml.Config{
 	},
 	MissingField: func(rt reflect.Type, field string) error {
 		link := ""
-		if unicode.IsUpper(rune(rt.Name()[0])) && rt.PkgPath() != "main" {
+		if unicode.IsUpper(rune(rt.Name()[0])) && rt.PkgPath() != "LogCenter" {
 			link = fmt.Sprintf(", check github.com/ethereum/go-ethereum/swarm/api/config.go for available fields")
 		}
 		return fmt.Errorf("field '%s' is not defined in %s%s", field, rt.String(), link)

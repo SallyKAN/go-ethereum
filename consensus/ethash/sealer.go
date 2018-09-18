@@ -109,6 +109,7 @@ func (ethash *Ethash) mine(block *types.Block, id int, seed uint64, abort chan s
 		nonce    = seed
 	)
 	logger := log.New("miner", id)
+	log.Info("Started ethash search for new nonces", "seed", seed)
 	logger.Trace("Started ethash search for new nonces", "seed", seed)
 search:
 	for {

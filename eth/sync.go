@@ -44,6 +44,7 @@ type txsync struct {
 
 // syncTransactions starts sending all currently pending transactions to the given peer.
 func (pm *ProtocolManager) syncTransactions(p *peer) {
+	log.Info("syncTransactions: starts sending all currently pending transactions to the given peer.")
 	var txs types.Transactions
 	pending, _ := pm.txpool.Pending()
 	for _, batch := range pending {
@@ -133,6 +134,7 @@ func (pm *ProtocolManager) txsyncLoop() {
 // downloading hashes and blocks as well as handling the announcement handler.
 func (pm *ProtocolManager) syncer() {
 	// Start and ensure cleanup of sync mechanisms
+	log.Info("syncer: periodically synchronise with the network,")
 	pm.fetcher.Start()
 	defer pm.fetcher.Stop()
 	defer pm.downloader.Terminate()
@@ -162,6 +164,7 @@ func (pm *ProtocolManager) syncer() {
 
 // synchronise tries to sync up our local block chain with a remote peer.
 func (pm *ProtocolManager) synchronise(peer *peer) {
+	log.Info("synchronise: tries to sync up our local block chain with a remote peer.")
 	// Short circuit if no peers are available
 	if peer == nil {
 		return

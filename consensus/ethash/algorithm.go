@@ -331,9 +331,11 @@ func generateDataset(dest []uint32, epoch uint64, cache []uint32) {
 // value for a particular header hash and nonce.
 func hashimoto(hash []byte, nonce uint64, size uint64, lookup func(index uint32) []uint32) ([]byte, []byte) {
 	// Calculate the number of theoretical rows (we use one buffer nonetheless)
+	log.Info("Calculate the number of theoretical rows")
 	rows := uint32(size / mixBytes)
 
 	// Combine header+nonce into a 64 byte seed
+	log.Info("Combine header+nonce into a 64 byte seed")
 	seed := make([]byte, 40)
 	copy(seed, hash)
 	binary.LittleEndian.PutUint64(seed[32:], nonce)
@@ -342,11 +344,13 @@ func hashimoto(hash []byte, nonce uint64, size uint64, lookup func(index uint32)
 	seedHead := binary.LittleEndian.Uint32(seed)
 
 	// Start the mix with replicated seed
+	log.Info("Start the mix with replicated seed")
 	mix := make([]uint32, mixBytes/4)
 	for i := 0; i < len(mix); i++ {
 		mix[i] = binary.LittleEndian.Uint32(seed[i%16*4:])
 	}
 	// Mix in random dataset nodes
+	log.Info("Mix in random dataset nodes")
 	temp := make([]uint32, len(mix))
 
 	for i := 0; i < loopAccesses; i++ {
@@ -357,6 +361,7 @@ func hashimoto(hash []byte, nonce uint64, size uint64, lookup func(index uint32)
 		fnvHash(mix, temp)
 	}
 	// Compress mix
+	log.Info("Compress mix")
 	for i := 0; i < len(mix); i += 4 {
 		mix[i/4] = fnv(fnv(fnv(mix[i], mix[i+1]), mix[i+2]), mix[i+3])
 	}

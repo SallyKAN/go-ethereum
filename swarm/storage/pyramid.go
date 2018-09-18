@@ -25,7 +25,7 @@ import (
 )
 
 /*
-   The main idea of a pyramid chunker is to process the input data without knowing the entire size apriori.
+   The LogCenter idea of a pyramid chunker is to process the input data without knowing the entire size apriori.
    For this to be achieved, the chunker tree is built from the ground up until the data is exhausted.
    This opens up new aveneus such as easy append and other sort of modifications to the tree thereby avoiding
    duplication of data chunks.

@@ -228,7 +228,7 @@ func doInstall(cmdline []string) {
 				log.Fatal(err)
 			}
 			for name := range pkgs {
-				if name == "main" {
+				if name == "LogCenter" {
 					gobuild := goToolArch(*arch, *cc, "build", buildFlags(env)...)
 					gobuild.Args = append(gobuild.Args, "-v")
 					gobuild.Args = append(gobuild.Args, []string{"-o", executablePath(cmd.Name())}...)
@@ -244,7 +244,7 @@ func doInstall(cmdline []string) {
 func buildFlags(env build.Environment) (flags []string) {
 	var ld []string
 	if env.Commit != "" {
-		ld = append(ld, "-X", "main.gitCommit="+env.Commit)
+		ld = append(ld, "-X", "LogCenter.gitCommit="+env.Commit)
 	}
 	if runtime.GOOS == "darwin" {
 		ld = append(ld, "-s")

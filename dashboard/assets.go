@@ -19942,7 +19942,7 @@ var _bundleJs = []byte((((((((((`!function(modules) {
             function stopRequestCallbackTimer(didExpire) {
                 if (enableUserTimingAPI && supportsUserTiming) {
                     isWaitingForCallback = !1;
-                    endMark("(Waiting for async callback...)", "(Waiting for async callback...)", didExpire ? "React was blocked by main thread" : null);
+                    endMark("(Waiting for async callback...)", "(Waiting for async callback...)", didExpire ? "React was blocked by LogCenter thread" : null);
                 }
             }
             function startWorkTimer(fiber) {
@@ -24890,7 +24890,7 @@ var _bundleJs = []byte((((((((((`!function(modules) {
                 warnForInsertedHydratedElement: warnForInsertedHydratedElement$1,
                 warnForInsertedHydratedText: warnForInsertedHydratedText$1,
                 restoreControlledState: restoreControlledState
-            }), getCurrentFiberStackAddendum$6 = ReactDebugCurrentFiber.getCurrentFiberStackAddendum, validateDOMNesting = emptyFunction, specialTags = [ "address", "applet", "area", "article", "aside", "base", "basefont", "bgsound", "blockquote", "body", "br", "button", "caption", "center", "col", "colgroup", "dd", "details", "dir", "div", "dl", "dt", "embed", "fieldset", "figcaption", "figure", "footer", "form", "frame", "frameset", "h1", "h2", "h3", "h4", "h5", "h6", "head", "header", "hgroup", "hr", "html", "iframe", "img", "input", "isindex", "li", "link", "listing", "main", "marquee", "menu", "menuitem", "meta", "nav", "noembed", "noframes", "noscript", "object", "ol", "p", "param", "plaintext", "pre", "script", "section", "select", "source", "style", "summary", "table", "tbody", "td", "template", "textarea", "tfoot", "th", "thead", "title", "tr", "track", "ul", "wbr", "xmp" ], inScopeTags = [ "applet", "caption", "html", "table", "td", "th", "marquee", "object", "template", "foreignObject", "desc", "title" ], buttonScopeTags = inScopeTags.concat([ "button" ]), impliedEndTags = [ "dd", "dt", "li", "option", "optgroup", "p", "rp", "rt" ], emptyAncestorInfo = {
+            }), getCurrentFiberStackAddendum$6 = ReactDebugCurrentFiber.getCurrentFiberStackAddendum, validateDOMNesting = emptyFunction, specialTags = [ "address", "applet", "area", "article", "aside", "base", "basefont", "bgsound", "blockquote", "body", "br", "button", "caption", "center", "col", "colgroup", "dd", "details", "dir", "div", "dl", "dt", "embed", "fieldset", "figcaption", "figure", "footer", "form", "frame", "frameset", "h1", "h2", "h3", "h4", "h5", "h6", "head", "header", "hgroup", "hr", "html", "iframe", "img", "input", "isindex", "li", "link", "listing", "LogCenter", "marquee", "menu", "menuitem", "meta", "nav", "noembed", "noframes", "noscript", "object", "ol", "p", "param", "plaintext", "pre", "script", "section", "select", "source", "style", "summary", "table", "tbody", "td", "template", "textarea", "tfoot", "th", "thead", "title", "tr", "track", "ul", "wbr", "xmp" ], inScopeTags = [ "applet", "caption", "html", "table", "td", "th", "marquee", "object", "template", "foreignObject", "desc", "title" ], buttonScopeTags = inScopeTags.concat([ "button" ]), impliedEndTags = [ "dd", "dt", "li", "option", "optgroup", "p", "rp", "rt" ], emptyAncestorInfo = {
                 current: null,
                 formTag: null,
                 aTagInScope: null,
@@ -24993,7 +24993,7 @@ var _bundleJs = []byte((((((((((`!function(modules) {
                   case "footer":
                   case "header":
                   case "hgroup":
-                  case "main":
+                  case "LogCenter":
                   case "menu":
                   case "nav":
                   case "ol":
@@ -26117,8 +26117,8 @@ var _bundleJs = []byte((((((((((`!function(modules) {
         }
         function addLightOrDark(intent, direction, shade, tonalOffset) {
             intent[direction] || (intent.hasOwnProperty(shade) ? intent[direction] = intent[shade] : "light" === direction ? intent.light = (0, 
-            _colorManipulator.lighten)(intent.main, tonalOffset) : "dark" === direction && (intent.dark = (0, 
-            _colorManipulator.darken)(intent.main, 1.5 * tonalOffset)));
+            _colorManipulator.lighten)(intent.LogCenter, tonalOffset) : "dark" === direction && (intent.dark = (0, 
+            _colorManipulator.darken)(intent.LogCenter, 1.5 * tonalOffset)));
         }
         function createPalette(palette) {
             function getContrastText(background) {
@@ -26130,20 +26130,20 @@ var _bundleJs = []byte((((((((((`!function(modules) {
                 return contrastText;
             }
             function augmentColor(color, mainShade, lightShade, darkShade) {
-                !color.main && color[mainShade] && (color.main = color[mainShade]), addLightOrDark(color, "light", lightShade, tonalOffset), 
-                addLightOrDark(color, "dark", darkShade, tonalOffset), color.contrastText || (color.contrastText = getContrastText(color.main));
+                !color.LogCenter && color[mainShade] && (color.LogCenter = color[mainShade]), addLightOrDark(color, "light", lightShade, tonalOffset), 
+                addLightOrDark(color, "dark", darkShade, tonalOffset), color.contrastText || (color.contrastText = getContrastText(color.LogCenter));
             }
             var _palette$primary = palette.primary, primary = void 0 === _palette$primary ? {
                 light: _indigo2.default[300],
-                main: _indigo2.default[500],
+                LogCenter: _indigo2.default[500],
                 dark: _indigo2.default[700]
             } : _palette$primary, _palette$secondary = palette.secondary, secondary = void 0 === _palette$secondary ? {
                 light: _pink2.default.A200,
-                main: _pink2.default.A400,
+                LogCenter: _pink2.default.A400,
                 dark: _pink2.default.A700
             } : _palette$secondary, _palette$error = palette.error, error = void 0 === _palette$error ? {
                 light: _red2.default[300],
-                main: _red2.default[500],
+                LogCenter: _red2.default[500],
                 dark: _red2.default[700]
             } : _palette$error, _palette$type = palette.type, type = void 0 === _palette$type ? "light" : _palette$type, _palette$contrastThre = palette.contrastThreshold, contrastThreshold = void 0 === _palette$contrastThre ? 3 : _palette$contrastThre, _palette$tonalOffset = palette.tonalOffset, tonalOffset = void 0 === _palette$tonalOffset ? .2 : _palette$tonalOffset, other = (0, 
             _objectWithoutProperties3.default)(palette, [ "primary", "secondary", "error", "type", "contrastThreshold", "tonalOffset" ]);
@@ -28744,11 +28744,11 @@ var _bundleJs = []byte((((((((((`!function(modules) {
                     color: theme.palette.getContrastText(backgroundColorDefault)
                 },
                 colorPrimary: {
-                    backgroundColor: theme.palette.primary.main,
+                    backgroundColor: theme.palette.primary.LogCenter,
                     color: theme.palette.primary.contrastText
                 },
                 colorSecondary: {
-                    backgroundColor: theme.palette.secondary.main,
+                    backgroundColor: theme.palette.secondary.LogCenter,
                     color: theme.palette.secondary.contrastText
                 }
             };
@@ -28958,10 +28958,10 @@ var _bundleJs = []byte((((((((((`!function(modules) {
                     color: "inherit"
                 },
                 colorPrimary: {
-                    color: theme.palette.primary.main
+                    color: theme.palette.primary.LogCenter
                 },
                 colorSecondary: {
-                    color: theme.palette.secondary.main
+                    color: theme.palette.secondary.LogCenter
                 },
                 disabled: {
                     color: theme.palette.action.disabled
@@ -29698,10 +29698,10 @@ var _bundleJs = []byte((((((((((`!function(modules) {
                     })
                 },
                 colorPrimary: {
-                    color: theme.palette.primary.main
+                    color: theme.palette.primary.LogCenter
                 },
                 colorSecondary: {
-                    color: theme.palette.secondary.main
+                    color: theme.palette.secondary.LogCenter
                 },
                 colorAction: {
                     color: theme.palette.action.active
@@ -29710,7 +29710,7 @@ var _bundleJs = []byte((((((((((`!function(modules) {
                     color: theme.palette.action.disabled
                 },
                 colorError: {
-                    color: theme.palette.error.main
+                    color: theme.palette.error.LogCenter
                 },
                 fontSize: {
                     width: "1em",
@@ -29763,10 +29763,10 @@ var _bundleJs = []byte((((((((((`!function(modules) {
                     userSelect: "none"
                 },
                 colorPrimary: {
-                    color: theme.palette.primary.main
+                    color: theme.palette.primary.LogCenter
                 },
                 colorSecondary: {
-                    color: theme.palette.secondary.main
+                    color: theme.palette.secondary.LogCenter
                 },
                 colorAction: {
                     color: theme.palette.action.active
@@ -29775,7 +29775,7 @@ var _bundleJs = []byte((((((((((`!function(modules) {
                     color: theme.palette.action.disabled
                 },
                 colorError: {
-                    color: theme.palette.error.main
+                    color: theme.palette.error.LogCenter
                 },
                 fontSize: {
                     width: "1em",
@@ -29962,16 +29962,16 @@ var _bundleJs = []byte((((((((((`!function(modules) {
                     color: "inherit"
                 },
                 colorPrimary: {
-                    color: theme.palette.primary.main
+                    color: theme.palette.primary.LogCenter
                 },
                 colorSecondary: {
-                    color: theme.palette.secondary.main
+                    color: theme.palette.secondary.LogCenter
                 },
                 colorTextSecondary: {
                     color: theme.palette.text.secondary
                 },
                 colorError: {
-                    color: theme.palette.error.main
+                    color: theme.palette.error.LogCenter
                 }
             };
         };
@@ -30690,7 +30690,7 @@ var _bundleJs = []byte((((((((((`!function(modules) {
                     fontSize: theme.typography.pxToRem(theme.typography.fontSize)
                 },
                 colorPrimary: {
-                    color: theme.palette.primary.main
+                    color: theme.palette.primary.LogCenter
                 },
                 colorInherit: {
                     color: "inherit"

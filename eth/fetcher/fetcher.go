@@ -274,7 +274,7 @@ func (f *Fetcher) FilterBodies(peer string, transactions [][]*types.Transaction,
 	}
 }
 
-// Loop is the main fetcher loop, checking and processing various notification
+// Loop is the LogCenter fetcher loop, checking and processing various notification
 // events.
 func (f *Fetcher) loop() {
 	// Iterate the block fetching until a quit is requested

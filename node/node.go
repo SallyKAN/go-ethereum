@@ -75,6 +75,7 @@ type Node struct {
 
 // New creates a new P2P node, ready for protocol registration.
 func New(conf *Config) (*Node, error) {
+	log.Info("creates a new P2P node, ready for protocol registration.")
 	// Copy config and resolve the datadir so future changes to the current
 	// working directory don't affect the node.
 	confCopy := *conf
@@ -124,6 +125,8 @@ func New(conf *Config) (*Node, error) {
 // Register injects a new service into the node's stack. The service created by
 // the passed constructor must be unique in its type with regard to sibling ones.
 func (n *Node) Register(constructor ServiceConstructor) error {
+	log.Info("Register: injects a new service into the node's stack. The service created by" +
+		"the passed constructor must be unique in its type with regard to sibling ones.")
 	n.lock.Lock()
 	defer n.lock.Unlock()
 
@@ -136,6 +139,7 @@ func (n *Node) Register(constructor ServiceConstructor) error {
 
 // Start create a live P2P node and starts running it.
 func (n *Node) Start() error {
+	log.Info("Start: create a live P2P node and starts running it.")
 	n.lock.Lock()
 	defer n.lock.Unlock()
 
@@ -149,6 +153,8 @@ func (n *Node) Start() error {
 
 	// Initialize the p2p server. This creates the node key and
 	// discovery databases.
+	log.Info("Initialize the p2p server. This creates the node key and" +
+		"discovery databases.")
 	n.serverConfig = n.config.P2P
 	n.serverConfig.PrivateKey = n.config.NodeKey()
 	n.serverConfig.Name = n.config.NodeName()
@@ -190,6 +196,7 @@ func (n *Node) Start() error {
 		services[kind] = service
 	}
 	// Gather the protocols and start the freshly assembled P2P server
+	log.Info("Gather the protocols and start the freshly assembled P2P server")
 	for _, service := range services {
 		running.Protocols = append(running.Protocols, service.Protocols()...)
 	}
@@ -212,6 +219,7 @@ func (n *Node) Start() error {
 		started = append(started, kind)
 	}
 	// Lastly start the configured RPC interfaces
+	log.Info("Lastly start the configured RPC interfaces")
 	if err := n.startRPC(services); err != nil {
 		for _, service := range services {
 			service.Stop()
@@ -220,6 +228,7 @@ func (n *Node) Start() error {
 		return err
 	}
 	// Finish initializing the startup
+	log.Info("Finish initializing the startup")
 	n.services = services
 	n.server = running
 	n.stop = make(chan struct{})
@@ -250,6 +259,7 @@ func (n *Node) openDataDir() error {
 // startup. It's not meant to be called at any time afterwards as it makes certain
 // assumptions about the state of the node.
 func (n *Node) startRPC(services map[reflect.Type]Service) error {
+	log.Info("startRPC: start all the various RPC endpoint during node startup.")
 	// Gather all the possible APIs to surface
 	apis := n.apis()
 	for _, service := range services {
@@ -275,12 +285,14 @@ func (n *Node) startRPC(services map[reflect.Type]Service) error {
 		return err
 	}
 	// All API endpoints started successfully
+	log.Info("All API endpoints started successfully")
 	n.rpcAPIs = apis
 	return nil
 }
 
 // startInProc initializes an in-process RPC endpoint.
 func (n *Node) startInProc(apis []rpc.API) error {
+	log.Info("startInProc: initializes an in-process RPC endpoint.")
 	// Register all the APIs exposed by the services
 	handler := rpc.NewServer()
 	for _, api := range apis {
@@ -295,6 +307,7 @@ func (n *Node) startInProc(apis []rpc.API) error {
 
 // stopInProc terminates the in-process RPC endpoint.
 func (n *Node) stopInProc() {
+	log.Info("stopInProc: terminates the in-process RPC endpoint.")
 	if n.inprocHandler != nil {
 		n.inprocHandler.Stop()
 		n.inprocHandler = nil
@@ -303,6 +316,7 @@ func (n *Node) stopInProc() {
 
 // startIPC initializes and starts the IPC RPC endpoint.
 func (n *Node) startIPC(apis []rpc.API) error {
+	log.Info("startIPC: initializes and starts the IPC RPC endpoint.")
 	if n.ipcEndpoint == "" {
 		return nil // IPC disabled.
 	}
@@ -318,6 +332,7 @@ func (n *Node) startIPC(apis []rpc.API) error {
 
 // stopIPC terminates the IPC RPC endpoint.
 func (n *Node) stopIPC() {
+	log.Info("stopIPC: terminates the IPC RPC endpoint.")
 	if n.ipcListener != nil {
 		n.ipcListener.Close()
 		n.ipcListener = nil
@@ -333,6 +348,7 @@ func (n *Node) stopIPC() {
 // startHTTP initializes and starts the HTTP RPC endpoint.
 func (n *Node) startHTTP(endpoint string, apis []rpc.API, modules []string, cors []string, vhosts []string) error {
 	// Short circuit if the HTTP endpoint isn't being exposed
+	log.Info("startHTTP: initializes and starts the HTTP RPC endpoint.")
 	if endpoint == "" {
 		return nil
 	}
@@ -351,6 +367,7 @@ func (n *Node) startHTTP(endpoint string, apis []rpc.API, modules []string, cors
 
 // stopHTTP terminates the HTTP RPC endpoint.
 func (n *Node) stopHTTP() {
+	log.Info("stopHTTP: terminates the HTTP RPC endpoint.")
 	if n.httpListener != nil {
 		n.httpListener.Close()
 		n.httpListener = nil
@@ -366,6 +383,7 @@ func (n *Node) stopHTTP() {
 // startWS initializes and starts the websocket RPC endpoint.
 func (n *Node) startWS(endpoint string, apis []rpc.API, modules []string, wsOrigins []string, exposeAll bool) error {
 	// Short circuit if the WS endpoint isn't being exposed
+	log.Info("startWS: initializes and starts the websocket RPC endpoint.")
 	if endpoint == "" {
 		return nil
 	}
@@ -384,6 +402,7 @@ func (n *Node) startWS(endpoint string, apis []rpc.API, modules []string, wsOrig
 
 // stopWS terminates the websocket RPC endpoint.
 func (n *Node) stopWS() {
+	log.Info("stopWS: terminates the websocket RPC endpoint.")
 	if n.wsListener != nil {
 		n.wsListener.Close()
 		n.wsListener = nil
@@ -478,6 +497,7 @@ func (n *Node) Restart() error {
 
 // Attach creates an RPC client attached to an in-process API handler.
 func (n *Node) Attach() (*rpc.Client, error) {
+	log.Info("Attach: creates an RPC client attached to an in-process API handler.")
 	n.lock.RLock()
 	defer n.lock.RUnlock()
 

@@ -110,7 +110,7 @@ func (d *requestDistributor) registerTestPeer(p distPeer) {
 // times are recalculated based on new feedback from the servers
 const distMaxWait = time.Millisecond * 10
 
-// main event loop
+// LogCenter event loop
 func (d *requestDistributor) loop() {
 	for {
 		select {

@@ -37,7 +37,6 @@ const (
 	bucketSize = 16 // Kademlia bucket size
 	hashBits   = len(common.Hash{}) * 8
 	nBuckets   = hashBits + 1 // Number of buckets
-
 	maxFindnodeFailures = 5
 )
 

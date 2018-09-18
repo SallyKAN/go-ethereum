@@ -260,7 +260,7 @@ func (c *ChainIndexer) newHead(head uint64, reorg bool) {
 	}
 }
 
-// updateLoop is the main event loop of the indexer which pushes chain segments
+// updateLoop is the LogCenter event loop of the indexer which pushes chain segments
 // down into the processing backend.
 func (c *ChainIndexer) updateLoop() {
 	var (

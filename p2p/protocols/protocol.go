@@ -225,7 +225,7 @@ func (p *Peer) Send(msg interface{}) error {
 }
 
 // handleIncoming(code)
-// is called each cycle of the main forever loop that dispatches incoming messages
+// is called each cycle of the LogCenter forever loop that dispatches incoming messages
 // if this returns an error the loop returns and the peer is disconnected with the error
 // this generic handler
 // * checks message size,

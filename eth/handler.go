@@ -100,6 +100,7 @@ type ProtocolManager struct {
 // with the Ethereum network.
 func NewProtocolManager(config *params.ChainConfig, mode downloader.SyncMode, networkId uint64, mux *event.TypeMux, txpool txPool, engine consensus.Engine, blockchain *core.BlockChain, chaindb ethdb.Database) (*ProtocolManager, error) {
 	// Create the protocol manager with the base fields
+	log.Info("NewProtocolManager: returns a new Ethereum sub protocol manager.")
 	manager := &ProtocolManager{
 		networkId:   networkId,
 		eventMux:    mux,
@@ -201,6 +202,7 @@ func (pm *ProtocolManager) removePeer(id string) {
 }
 
 func (pm *ProtocolManager) Start(maxPeers int) {
+	log.Info("Start Ethereum protocol")
 	pm.maxPeers = maxPeers
 
 	// broadcast transactions
@@ -304,7 +306,7 @@ func (pm *ProtocolManager) handle(p *peer) error {
 			}
 		}()
 	}
-	// main loop. handle incoming messages.
+	// LogCenter loop. handle incoming messages.
 	for {
 		if err := pm.handleMsg(p); err != nil {
 			p.Log().Debug("Ethereum message handling failed", "err", err)
@@ -317,6 +319,8 @@ func (pm *ProtocolManager) handle(p *peer) error {
 // peer. The remote connection is torn down upon returning any error.
 func (pm *ProtocolManager) handleMsg(p *peer) error {
 	// Read the next message from the remote peer, and ensure it's fully consumed
+	log.Info("handleMsg: invoked whenever an inbound message is received from a remote" +
+		"peer. The remote connection is torn down upon returning any error.")
 	msg, err := p.rw.ReadMsg()
 	if err != nil {
 		return err
@@ -682,6 +686,8 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 // BroadcastBlock will either propagate a block to a subset of it's peers, or
 // will only announce it's availability (depending what's requested).
 func (pm *ProtocolManager) BroadcastBlock(block *types.Block, propagate bool) {
+	log.Info("BroadcastBlock: either propagate a block to a subset of it's peers, or" +
+		"will only announce it's availability (depending what's requested).")
 	hash := block.Hash()
 	peers := pm.peers.PeersWithoutBlock(hash)
 
@@ -715,6 +721,8 @@ func (pm *ProtocolManager) BroadcastBlock(block *types.Block, propagate bool) {
 // BroadcastTx will propagate a transaction to all peers which are not known to
 // already have the given transaction.
 func (pm *ProtocolManager) BroadcastTx(hash common.Hash, tx *types.Transaction) {
+	log.Info("BroadcastTx: propagate a transaction to all peers which are not known to" +
+		"already have the given transaction.")
 	// Broadcast transaction to a batch of peers not knowing about it
 	peers := pm.peers.PeersWithoutTx(hash)
 	//FIXME include this again: peers = peers[:int(math.Sqrt(float64(len(peers))))]
@@ -726,6 +734,7 @@ func (pm *ProtocolManager) BroadcastTx(hash common.Hash, tx *types.Transaction) 
 
 // Mined broadcast loop
 func (pm *ProtocolManager) minedBroadcastLoop() {
+	log.Info("Mined broadcast loop")
 	// automatically stops if unsubscribe
 	for obj := range pm.minedBlockSub.Chan() {
 		switch ev := obj.Data.(type) {
@@ -761,6 +770,7 @@ type NodeInfo struct {
 
 // NodeInfo retrieves some protocol metadata about the running host node.
 func (pm *ProtocolManager) NodeInfo() *NodeInfo {
+	log.Info("NodeInfo: retrieves some protocol metadata about the running host node.")
 	currentBlock := pm.blockchain.CurrentBlock()
 	return &NodeInfo{
 		Network:    pm.networkId,

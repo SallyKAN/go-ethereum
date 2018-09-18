@@ -86,7 +86,7 @@ type Result struct {
 	Block *types.Block
 }
 
-// worker is the main object which takes care of applying messages to the new state
+// worker is the LogCenter object which takes care of applying messages to the new state
 type worker struct {
 	config *params.ChainConfig
 	engine consensus.Engine
@@ -344,6 +344,7 @@ func (self *worker) wait() {
 
 // push sends a new work task to currently live miner agents.
 func (self *worker) push(work *Work) {
+	log.Info("sends a new work task to currently live miner agents.")
 	if atomic.LoadInt32(&self.mining) != 1 {
 		return
 	}
@@ -421,6 +422,7 @@ func (self *worker) commitNewWork() {
 	if atomic.LoadInt32(&self.mining) == 1 {
 		header.Coinbase = self.coinbase
 	}
+	log.Info("prepare header for mining")
 	if err := self.engine.Prepare(self.chain, header); err != nil {
 		log.Error("Failed to prepare header for mining", "err", err)
 		return
@@ -480,6 +482,7 @@ func (self *worker) commitNewWork() {
 		delete(self.possibleUncles, hash)
 	}
 	// Create the new block to seal with the consensus engine
+	log.Info("Create the new block to seal with the consensus engine")
 	if work.Block, err = self.engine.Finalize(self.chain, header, work.state, work.txs, uncles, work.receipts); err != nil {
 		log.Error("Failed to finalize block for sealing", "err", err)
 		return

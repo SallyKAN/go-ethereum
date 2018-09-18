@@ -185,7 +185,7 @@ func (self *Kademlia) On(node Node, cb func(*NodeRecord, Node) error) (err error
 
 }
 
-// Off is the called when a node is taken offline (from the protocol main loop exit)
+// Off is the called when a node is taken offline (from the protocol LogCenter loop exit)
 func (self *Kademlia) Off(node Node, cb func(*NodeRecord, Node)) (err error) {
 	self.lock.Lock()
 	defer self.lock.Unlock()

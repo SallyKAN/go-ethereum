@@ -70,6 +70,8 @@ var (
 // known peers in the network. If no path is given, an in-memory, temporary
 // database is constructed.
 func newNodeDB(path string, version int, self NodeID) (*nodeDB, error) {
+	log.Info("newNodeDB: reates a new node database for storing and retrieving infos about" +
+		"known peers in the network.")
 	if path == "" {
 		return newMemoryNodeDB(self)
 	}
@@ -79,6 +81,8 @@ func newNodeDB(path string, version int, self NodeID) (*nodeDB, error) {
 // newMemoryNodeDB creates a new in-memory node database without a persistent
 // backend.
 func newMemoryNodeDB(self NodeID) (*nodeDB, error) {
+	log.Info("newMemoryNodeDB: creates a new in-memory node database without a persistent" +
+		"backend.")
 	db, err := leveldb.Open(storage.NewMemStorage(), nil)
 	if err != nil {
 		return nil, err
@@ -93,6 +97,7 @@ func newMemoryNodeDB(self NodeID) (*nodeDB, error) {
 // newPersistentNodeDB creates/opens a leveldb backed persistent node database,
 // also flushing its contents in case of a version mismatch.
 func newPersistentNodeDB(path string, version int, self NodeID) (*nodeDB, error) {
+	log.Info("newPersistentNodeDB: creates/opens a leveldb backed persistent node database")
 	opts := &opt.Options{OpenFilesCacheCapacity: 5}
 	db, err := leveldb.OpenFile(path, opts)
 	if _, iscorrupted := err.(*errors.ErrCorrupted); iscorrupted {
@@ -209,11 +214,13 @@ func (db *nodeDB) node(id NodeID) *Node {
 
 // updateNode inserts - potentially overwriting - a node into the peer database.
 func (db *nodeDB) updateNode(node *Node) error {
+	log.Info("updateNode: inserts - potentially overwriting - a node into the peer database.")
 	return db.storeRLP(makeKey(node.ID, nodeDBDiscoverRoot), node)
 }
 
 // deleteNode deletes all information/keys associated with a node.
 func (db *nodeDB) deleteNode(id NodeID) error {
+	log.Info("deleteNode: deletes all information/keys associated with a node.")
 	deleter := db.lvl.NewIterator(util.BytesPrefix(makeKey(id, "")), nil)
 	for deleter.Next() {
 		if err := db.lvl.Delete(deleter.Key(), nil); err != nil {

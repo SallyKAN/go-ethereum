@@ -49,7 +49,7 @@ var errBlockNumberUnsupported = errors.New("SimulatedBackend cannot access block
 var errGasEstimationFailed = errors.New("gas required exceeds allowance or always failing transaction")
 
 // SimulatedBackend implements bind.ContractBackend, simulating a blockchain in
-// the background. Its main purpose is to allow easily testing contract bindings.
+// the background. Its LogCenter purpose is to allow easily testing contract bindings.
 type SimulatedBackend struct {
 	database   ethdb.Database   // In memory database to store our testing data
 	blockchain *core.BlockChain // Ethereum blockchain to handle the consensus

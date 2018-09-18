@@ -26,7 +26,7 @@ type tmplData struct {
 
 // tmplContract contains the data needed to generate an individual contract binding.
 type tmplContract struct {
-	Type        string                 // Type name of the main contract binding
+	Type        string                 // Type name of the LogCenter contract binding
 	InputABI    string                 // JSON ABI used as the input to generate the binding from
 	InputBin    string                 // Optional EVM bytecode used to denetare deploy code from
 	Constructor abi.Method             // Contract constructor for deploy parametrization

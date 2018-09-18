@@ -68,7 +68,7 @@ func newSyncMemBatch() *syncMemBatch {
 	}
 }
 
-// TrieSync is the main state trie synchronisation scheduler, which provides yet
+// TrieSync is the LogCenter state trie synchronisation scheduler, which provides yet
 // unknown trie hashes to retrieve, accepts node data associated with said hashes
 // and reconstructs the trie step by step until all is done.
 type TrieSync struct {

@@ -100,7 +100,7 @@ type StorageHandler interface {
 }
 
 /*
-main entrypoint, wrappers starting a server that will run the bzz protocol
+LogCenter entrypoint, wrappers starting a server that will run the bzz protocol
 use this constructor to attach the protocol ("class") to server caps
 This is done by node.Node#Register(func(node.ServiceContext) (Service, error))
 Service implements Protocols() which is an array of protocol constructors
@@ -132,7 +132,7 @@ func Bzz(cloud StorageHandler, backend chequebook.Backend, hive *Hive, dbaccess 
 }
 
 /*
-the main protocol loop that
+the LogCenter protocol loop that
  * does the handshake by exchanging statusMsg
  * if peer is valid and accepted, registers with the hive
  * then enters into a forever loop handling incoming messages
@@ -177,7 +177,7 @@ func run(requestDb *storage.LDBDatabase, depo StorageHandler, backend chequebook
 		}
 	}()
 
-	// the main forever loop that handles incoming requests
+	// the LogCenter forever loop that handles incoming requests
 	for {
 		if self.hive.blockRead {
 			log.Warn(fmt.Sprintf("Cannot read network"))
@@ -197,7 +197,7 @@ func (self *bzz) Drop() {
 	self.peer.Disconnect(p2p.DiscSubprotocolError)
 }
 
-// one cycle of the main forever loop that handles and dispatches incoming messages
+// one cycle of the LogCenter forever loop that handles and dispatches incoming messages
 func (self *bzz) handle() error {
 	msg, err := self.rw.ReadMsg()
 	log.Debug(fmt.Sprintf("<- %v", msg))

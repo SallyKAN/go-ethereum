@@ -57,7 +57,7 @@ const menuSkeletons: Array<{|id: string, menu: ProvidedMenuProp|}> = [
 	},
 ];
 export type MenuProp = {|...ProvidedMenuProp, id: string|};
-// The sidebar menu and the main content are rendered based on these elements.
+// The sidebar menu and the LogCenter content are rendered based on these elements.
 // Using the id is circumstantial in some cases, so it is better to insert it also as a value.
 // This way the mistyping is prevented.
 export const MENU: Map<string, {...MenuProp}> = new Map(menuSkeletons.map(({id, menu}) => ([id, {id, ...menu}])));

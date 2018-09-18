@@ -1199,7 +1199,7 @@ func TestEIP161AccountRemoval(t *testing.T) {
 //
 // https://github.com/ethereum/go-ethereum/pull/15941
 func TestBlockchainHeaderchainReorgConsistency(t *testing.T) {
-	// Generate a canonical chain to act as the main dataset
+	// Generate a canonical chain to act as the LogCenter dataset
 	engine := ethash.NewFaker()
 
 	db, _ := ethdb.NewMemDatabase()
@@ -1244,7 +1244,7 @@ func TestBlockchainHeaderchainReorgConsistency(t *testing.T) {
 // Tests that importing small side forks doesn't leave junk in the trie database
 // cache (which would eventually cause memory issues).
 func TestTrieForkGC(t *testing.T) {
-	// Generate a canonical chain to act as the main dataset
+	// Generate a canonical chain to act as the LogCenter dataset
 	engine := ethash.NewFaker()
 
 	db, _ := ethdb.NewMemDatabase()

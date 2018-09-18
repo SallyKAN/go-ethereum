@@ -36,7 +36,7 @@ import (
 
 var adapterType = flag.String("adapter", "sim", `node adapter to use (one of "sim", "exec" or "docker")`)
 
-// main() starts a simulation network which contains nodes running a simple
+// LogCenter() starts a simulation network which contains nodes running a simple
 // ping-pong protocol
 func main() {
 	flag.Parse()
@@ -83,7 +83,7 @@ func main() {
 	}
 
 	// start the HTTP API
-	log.Info("starting simulation server on 0.0.0.0:8888...")
+	log.Info("starting simulation server on 127.0.0.1:8888...")
 	network := simulations.NewNetwork(adapter, &simulations.NetworkConfig{
 		DefaultService: "ping-pong",
 	})

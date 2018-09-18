@@ -81,7 +81,7 @@ func newSyncDb(db *storage.LDBDatabase, key storage.Key, priority uint, bufferSi
 	}
 	log.Trace(fmt.Sprintf("syncDb[peer: %v, priority: %v] - initialised", key.Log(), priority))
 
-	// starts the main forever loop reading from buffer
+	// starts the LogCenter forever loop reading from buffer
 	go syncdb.bufferRead(deliver)
 	return syncdb
 }

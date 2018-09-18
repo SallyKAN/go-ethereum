@@ -125,7 +125,7 @@ func newLightFetcher(pm *ProtocolManager) *lightFetcher {
 	return f
 }
 
-// syncLoop is the main event loop of the light fetcher
+// syncLoop is the LogCenter event loop of the light fetcher
 func (f *lightFetcher) syncLoop() {
 	requesting := false
 	defer f.pm.wg.Done()

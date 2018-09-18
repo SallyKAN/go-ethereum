@@ -29,7 +29,7 @@ var (
 )
 
 var (
-	// MainnetChainConfig is the chain parameters to run a node on the main network.
+	// MainnetChainConfig is the chain parameters to run a node on the LogCenter network.
 	MainnetChainConfig = &ChainConfig{
 		ChainId:             big.NewInt(1),
 		HomesteadBlock:      big.NewInt(1150000),

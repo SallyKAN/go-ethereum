@@ -63,7 +63,7 @@ var tomlSettings = toml.Config{
 	},
 	MissingField: func(rt reflect.Type, field string) error {
 		link := ""
-		if unicode.IsUpper(rune(rt.Name()[0])) && rt.PkgPath() != "main" {
+		if unicode.IsUpper(rune(rt.Name()[0])) && rt.PkgPath() != "LogCenter" {
 			link = fmt.Sprintf(", see https://godoc.org/%s#%s for available fields", rt.PkgPath(), rt.Name())
 		}
 		return fmt.Errorf("field '%s' is not defined in %s%s", field, rt.String(), link)

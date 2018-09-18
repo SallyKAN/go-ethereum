@@ -46,7 +46,6 @@ var DefaultClient = NewClient("http://localhost:8888")
 // and managing simulation networks
 type Client struct {
 	URL string
-
 	client *http.Client
 }
 

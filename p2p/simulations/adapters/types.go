@@ -203,7 +203,7 @@ var serviceFuncs = make(Services)
 // start devp2p nodes using either the Exec or Docker adapters.
 //
 // It should be called in an init function so that it has the opportunity to
-// execute the services before main() is called.
+// execute the services before LogCenter() is called.
 func RegisterServices(services Services) {
 	for name, f := range services {
 		if _, exists := serviceFuncs[name]; exists {
