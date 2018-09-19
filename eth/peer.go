@@ -263,8 +263,8 @@ func (p *peer) RequestReceipts(hashes []common.Hash) error {
 // Handshake executes the eth protocol handshake, negotiating version number,
 // network IDs, difficulties, head and genesis blocks.
 func (p *peer) Handshake(network uint64, td *big.Int, head common.Hash, genesis common.Hash) error {
-	log.Info("Handshake: executes the eth protocol handshake, negotiating version number," +
-		"network IDs, difficulties, head and genesis blocks.")
+	//log.Info("Handshake: executes the eth protocol handshake, negotiating version number," +
+	//	"network IDs, difficulties, head and genesis blocks.")
 	// Send out own handshake in a new thread
 	errc := make(chan error, 2)
 	var status statusData // safe to read after two values have been received from errc
@@ -429,7 +429,7 @@ func (ps *peerSet) PeersWithoutTx(hash common.Hash) []*peer {
 
 // BestPeer retrieves the known peer with the currently highest total difficulty.
 func (ps *peerSet) BestPeer() *peer {
-	log.Info("BestPeer: retrieves the known peer with the currently highest total difficulty.")
+	log.Debug("BestPeer: retrieves the known peer with the currently highest total difficulty.")
 	ps.lock.RLock()
 	defer ps.lock.RUnlock()
 

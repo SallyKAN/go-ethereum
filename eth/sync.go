@@ -164,7 +164,7 @@ func (pm *ProtocolManager) syncer() {
 
 // synchronise tries to sync up our local block chain with a remote peer.
 func (pm *ProtocolManager) synchronise(peer *peer) {
-	log.Info("synchronise: tries to sync up our local block chain with a remote peer.")
+	log.Debug("synchronise: tries to sync up our local block chain with a remote peer.")
 	// Short circuit if no peers are available
 	if peer == nil {
 		return

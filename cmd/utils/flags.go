@@ -715,7 +715,7 @@ func setHTTP(ctx *cli.Context, cfg *node.Config) {
 // setWS creates the WebSocket RPC listener interface string from the set
 // command line flags, returning empty if the HTTP endpoint is disabled.
 func setWS(ctx *cli.Context, cfg *node.Config) {
-	log.Info("setWS","creates the WebSocket RPC listener interface string from the set" +
+	log.Info("setWS: creates the WebSocket RPC listener interface string from the set" +
 		"command line flags, returning empty if the HTTP endpoint is disabled.")
 	if ctx.GlobalBool(WSEnabledFlag.Name) && cfg.WSHost == "" {
 		cfg.WSHost = "127.0.0.1"
@@ -738,7 +738,7 @@ func setWS(ctx *cli.Context, cfg *node.Config) {
 // setIPC creates an IPC path configuration from the set command line flags,
 // returning an empty string if IPC was explicitly disabled, or the set path.
 func setIPC(ctx *cli.Context, cfg *node.Config) {
-	log.Info("setIPC","creates an IPC path configuration from the set command line flags," +
+	log.Info("setIPC: creates an IPC path configuration from the set command line flags," +
 		"returning an empty string if IPC was explicitly disabled, or the set path.")
 	checkExclusive(ctx, IPCDisabledFlag, IPCPathFlag)
 	switch {
@@ -752,7 +752,7 @@ func setIPC(ctx *cli.Context, cfg *node.Config) {
 // makeDatabaseHandles raises out the number of allowed file handles per process
 // for Geth and returns half of the allowance to assign to the database.
 func makeDatabaseHandles() int {
-	log.Info("makeDatabaseHandles","raises out the number of allowed file handles per process" +
+	log.Info("makeDatabaseHandles: raises out the number of allowed file handles per process" +
 		"for Geth and returns half of the allowance to assign to the database.")
 	limit, err := fdlimit.Current()
 	if err != nil {
@@ -772,7 +772,7 @@ func makeDatabaseHandles() int {
 // MakeAddress converts an account specified directly as a hex encoded string or
 // a key index in the key store to an internal account representation.
 func MakeAddress(ks *keystore.KeyStore, account string) (accounts.Account, error) {
-	log.Info("MakeAddress","converts an account specified directly as a hex encoded string or" +
+	log.Info("MakeAddress: converts an account specified directly as a hex encoded string or" +
 		"a key index in the key store to an internal account representation.")
 	// If the specified account is a valid address, return it
 	if common.IsHexAddress(account) {
@@ -799,7 +799,7 @@ func MakeAddress(ks *keystore.KeyStore, account string) (accounts.Account, error
 // setEtherbase retrieves the etherbase either from the directly specified
 // command line flags or from the keystore if CLI indexed.
 func setEtherbase(ctx *cli.Context, ks *keystore.KeyStore, cfg *eth.Config) {
-	log.Info("setEtherbase","retrieves the etherbase either from the directly specified" +
+	log.Info("setEtherbase: retrieves the etherbase either from the directly specified" +
 		"command line flags or from the keystore if CLI indexed.")
 	if ctx.GlobalIsSet(EtherbaseFlag.Name) {
 		account, err := MakeAddress(ks, ctx.GlobalString(EtherbaseFlag.Name))
@@ -812,7 +812,7 @@ func setEtherbase(ctx *cli.Context, ks *keystore.KeyStore, cfg *eth.Config) {
 
 // MakePasswordList reads password lines from the file specified by the global --password flag.
 func MakePasswordList(ctx *cli.Context) []string {
-	log.Info("MakePasswordList","reads password lines from the file specified by the global --password flag.")
+	log.Info("MakePasswordList: reads password lines from the file specified by the global --password flag.")
 	path := ctx.GlobalString(PasswordFileFlag.Name)
 	if path == "" {
 		return nil
@@ -904,7 +904,7 @@ func SetP2PConfig(ctx *cli.Context, cfg *p2p.Config) {
 
 // SetNodeConfig applies node-related command line flags to the config.
 func SetNodeConfig(ctx *cli.Context, cfg *node.Config) {
-	log.Info("SetNodeConfig","applies node-related command line flags to the config.")
+	log.Info("SetNodeConfig: applies node-related command line flags to the config.")
 	SetP2PConfig(ctx, &cfg.P2P)
 	setIPC(ctx, cfg)
 	setHTTP(ctx, cfg)
@@ -1003,7 +1003,7 @@ func setEthash(ctx *cli.Context, cfg *eth.Config) {
 // set by the user. Each flag might optionally be followed by a string type to
 // specialize it further.
 func checkExclusive(ctx *cli.Context, args ...interface{}) {
-	log.Info("checkExclusive","verifies that only a single isntance of the provided flags was" +
+	log.Info("checkExclusive: verifies that only a single isntance of the provided flags was" +
 		"set by the user. Each flag might optionally be followed by a string type to" +
 		"specialize it further.")
 	set := make([]string, 0, 1)
@@ -1042,7 +1042,7 @@ func checkExclusive(ctx *cli.Context, args ...interface{}) {
 
 // SetShhConfig applies shh-related command line flags to the config.
 func SetShhConfig(ctx *cli.Context, stack *node.Node, cfg *whisper.Config) {
-	log.Info("SetShhConfig","applies shh-related command line flags to the config.")
+	log.Info("SetShhConfig: applies shh-related command line flags to the config.")
 	if ctx.GlobalIsSet(WhisperMaxMessageSizeFlag.Name) {
 		cfg.MaxMessageSize = uint32(ctx.GlobalUint(WhisperMaxMessageSizeFlag.Name))
 	}
@@ -1054,7 +1054,7 @@ func SetShhConfig(ctx *cli.Context, stack *node.Node, cfg *whisper.Config) {
 // SetEthConfig applies eth-related command line flags to the config.
 func SetEthConfig(ctx *cli.Context, stack *node.Node, cfg *eth.Config) {
 	// Avoid conflicting network flags
-	log.Info("SetEthConfig","applies eth-related command line flags to the config.")
+	log.Info("SetEthConfig: applies eth-related command line flags to the config.")
 	checkExclusive(ctx, DeveloperFlag, TestnetFlag, RinkebyFlag)
 	checkExclusive(ctx, FastSyncFlag, LightModeFlag, SyncModeFlag)
 	checkExclusive(ctx, LightServFlag, LightModeFlag)
@@ -1158,7 +1158,7 @@ func SetEthConfig(ctx *cli.Context, stack *node.Node, cfg *eth.Config) {
 
 // SetDashboardConfig applies dashboard related command line flags to the config.
 func SetDashboardConfig(ctx *cli.Context, cfg *dashboard.Config) {
-	log.Info("SetDashboardConfig","applies dashboard related command line flags to the config.")
+	log.Info("SetDashboardConfig: applies dashboard related command line flags to the config.")
 	cfg.Host = ctx.GlobalString(DashboardAddrFlag.Name)
 	cfg.Port = ctx.GlobalInt(DashboardPortFlag.Name)
 	cfg.Refresh = ctx.GlobalDuration(DashboardRefreshFlag.Name)
@@ -1166,7 +1166,7 @@ func SetDashboardConfig(ctx *cli.Context, cfg *dashboard.Config) {
 
 // RegisterEthService adds an Ethereum client to the stack.
 func RegisterEthService(stack *node.Node, cfg *eth.Config) {
-	log.Info("RegisterEthService","adds an Ethereum client to the stack.")
+	log.Info("RegisterEthService: adds an Ethereum client to the stack.")
 	var err error
 
 	if cfg.SyncMode == downloader.LightSync {
@@ -1190,7 +1190,7 @@ func RegisterEthService(stack *node.Node, cfg *eth.Config) {
 
 // RegisterDashboardService adds a dashboard to the stack.
 func RegisterDashboardService(stack *node.Node, cfg *dashboard.Config, commit string) {
-	log.Info("RegisterDashboardService","adds a dashboard to the stack.")
+	log.Info("RegisterDashboardService: adds a dashboard to the stack.")
 	stack.Register(func(ctx *node.ServiceContext) (node.Service, error) {
 		return dashboard.New(cfg, commit)
 	})
@@ -1198,7 +1198,7 @@ func RegisterDashboardService(stack *node.Node, cfg *dashboard.Config, commit st
 
 // RegisterShhService configures Whisper and adds it to the given node.
 func RegisterShhService(stack *node.Node, cfg *whisper.Config) {
-	log.Info("RegisterShhService","configures Whisper and adds it to the given node.")
+	log.Info("RegisterShhService: configures Whisper and adds it to the given node.")
 	if err := stack.Register(func(n *node.ServiceContext) (node.Service, error) {
 		return whisper.New(cfg), nil
 	}); err != nil {
@@ -1209,7 +1209,7 @@ func RegisterShhService(stack *node.Node, cfg *whisper.Config) {
 // RegisterEthStatsService configures the Ethereum Stats daemon and adds it to
 // th egiven node.
 func RegisterEthStatsService(stack *node.Node, url string) {
-	log.Info("RegisterEthStatsService","configures the Ethereum Stats daemon and adds it to" +
+	log.Info("RegisterEthStatsService: configures the Ethereum Stats daemon and adds it to" +
 		"the given node.")
 	if err := stack.Register(func(ctx *node.ServiceContext) (node.Service, error) {
 		// Retrieve both eth and les services
@@ -1227,14 +1227,14 @@ func RegisterEthStatsService(stack *node.Node, url string) {
 
 // SetupNetwork configures the system for either the LogCenter net or some test network.
 func SetupNetwork(ctx *cli.Context) {
-	log.Info("SetupNetwork","configures the system for either the LogCenter net or some test network.")
+	log.Info("SetupNetwork: configures the system for either the LogCenter net or some test network.")
 	// TODO(fjl): move target gas limit into config
 	params.TargetGasLimit = ctx.GlobalUint64(TargetGasLimitFlag.Name)
 }
 
 // MakeChainDatabase open an LevelDB using the flags passed to the client and will hard crash if it fails.
 func MakeChainDatabase(ctx *cli.Context, stack *node.Node) ethdb.Database {
-	log.Info("MakeChainDatabase","open an LevelDB using the flags passed to the client and will hard crash if it fails.")
+	log.Info("MakeChainDatabase: open an LevelDB using the flags passed to the client and will hard crash if it fails.")
 	var (
 		cache   = ctx.GlobalInt(CacheFlag.Name) * ctx.GlobalInt(CacheDatabaseFlag.Name) / 100
 		handles = makeDatabaseHandles()
@@ -1266,7 +1266,7 @@ func MakeGenesis(ctx *cli.Context) *core.Genesis {
 
 // MakeChain creates a chain manager from set command line flags.
 func MakeChain(ctx *cli.Context, stack *node.Node) (chain *core.BlockChain, chainDb ethdb.Database) {
-	log.Info("MakeChain","creates a chain manager from set command line flags.")
+	log.Info("MakeChain: creates a chain manager from set command line flags.")
 	var err error
 	chainDb = MakeChainDatabase(ctx, stack)
 
@@ -1312,7 +1312,7 @@ func MakeChain(ctx *cli.Context, stack *node.Node) (chain *core.BlockChain, chai
 // MakeConsolePreloads retrieves the absolute paths for the console JavaScript
 // scripts to preload before starting.
 func MakeConsolePreloads(ctx *cli.Context) []string {
-	log.Info("MakeConsolePreloads","retrieves the absolute paths for the console JavaScript" +
+	log.Info("MakeConsolePreloads: retrieves the absolute paths for the console JavaScript" +
 		"scripts to preload before starting.")
 	// Skip preloading if there's nothing to preload
 	if ctx.GlobalString(PreloadJSFlag.Name) == "" {
